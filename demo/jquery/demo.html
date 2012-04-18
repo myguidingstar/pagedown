@@ -9,36 +9,29 @@
     </head>
     <body>
 
-<div class="pagedown">
-<div class="wmd-bar"></div>
 <textarea class="wmd-input">
 This is the *second* editor.
 ------------------------------
 </textarea>
-<div class="wmd-preview"></div>
-</div>
 
-<div class="pagedown">
-<div class="wmd-bar"></div>
 <textarea class="wmd-input">
 This is the *second* editor.
 ------------------------------
 </textarea>
-<div class="wmd-preview"></div>
-</div>
 
         <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js" type="text/javascript"></script>
         <script type="text/javascript">
-            $(".pagedown").each(function(index){
-              $(this).children(".wmd-bar").attr('id', 'wmd-button-bar-' + index);
-              $(this).children(".wmd-input").attr('id', 'wmd-input-' + index);
-              $(this).children(".wmd-preview").attr('id', 'wmd-preview-' + index);
-                var MdConverter = new Markdown.Converter();
-                MdConverter.hooks.chain("preConversion", function (text) {
-                    return text.replace(/\b(a\w*)/gi, "*$1*");});
-                MdConverter.hooks.chain("plainLinkText", function (url) {
-                    return "This is a link to " + url.replace(/^https?:\/\//, "");});
-                var MdHelp = function () { alert("Do you need help?"); }
+            $(".wmd-input").each(function(index){
+              $(this).before('<div class="wmd-bar" id="wmd-button-bar-' + index + '"></div>');
+              $(this).attr('id', 'wmd-input-' + index);
+              $(this).after('<div class="wmd-preview" id="wmd-preview-' + index + '"></div>');
+
+              var MdConverter = new Markdown.Converter();
+              MdConverter.hooks.chain("preConversion", function (text) {
+                  return text.replace(/\b(a\w*)/gi, "*$1*");});
+              MdConverter.hooks.chain("plainLinkText", function (url) {
+                  return "This is a link to " + url.replace(/^https?:\/\//, "");});
+              var MdHelp = function () { alert("Do you need help?"); }
               new Markdown.Editor(MdConverter, '-' + index, { handler: MdHelp }).run();
               })
         </script>
